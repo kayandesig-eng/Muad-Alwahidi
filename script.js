@@ -1,10 +1,6 @@
-document.getElementById("year").textContent=new Date().getFullYear();
-document.querySelector(".menu").addEventListener("click",()=>document.querySelector("nav").classList.toggle("open"));
-document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>document.querySelector("nav").classList.remove("open")));
-document.getElementById("contactForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const f=e.currentTarget, d=new FormData(f);
-  const subject=encodeURIComponent("طلب تصميم من موقع Muad Alwahidi");
-  const body=encodeURIComponent(`الاسم: ${d.get("name")}\nالبريد: ${d.get("email")}\n\n${d.get("message")}`);
-  window.location.href=`mailto:YOUR_EMAIL@example.com?subject=${subject}&body=${body}`;
-});
+const menu=document.querySelector('.menu');const nav=document.querySelector('nav');menu?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',open)});document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+const filters=document.querySelectorAll('.filter');const cards=document.querySelectorAll('.work-card');filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(b=>b.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;cards.forEach(c=>c.classList.toggle('hidden',f!=='all'&&c.dataset.category!==f))}));
+const lightbox=document.getElementById('lightbox'),lightImg=document.getElementById('lightboxImg'),lightTitle=document.getElementById('lightboxTitle');document.querySelectorAll('.work-image').forEach(btn=>btn.addEventListener('click',()=>{lightImg.src=btn.dataset.full;lightTitle.textContent=btn.closest('.work-card').dataset.title;lightbox.classList.add('open');lightbox.setAttribute('aria-hidden','false')}));document.querySelector('.close')?.addEventListener('click',closeBox);lightbox?.addEventListener('click',e=>{if(e.target===lightbox)closeBox()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBox()});function closeBox(){lightbox.classList.remove('open');lightbox.setAttribute('aria-hidden','true');lightImg.src=''}
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.getElementById('year').textContent=new Date().getFullYear();
+document.getElementById('contactForm')?.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.currentTarget);const subject=encodeURIComponent('طلب تصميم — Muad Alwahidi');const body=encodeURIComponent(`الاسم: ${d.get('name')}\nالبريد: ${d.get('email')}\n\nتفاصيل المشروع:\n${d.get('message')}`);window.location.href=`mailto:YOUR_EMAIL@example.com?subject=${subject}&body=${body}`});
